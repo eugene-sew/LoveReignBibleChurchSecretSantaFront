@@ -55,7 +55,12 @@ const Draw = () => {
         }
       }
     } catch (err) {
-      setError('Could not fetch assignment. Are you registered?');
+      if (err.response && err.response.status === 404) {
+        setError('Name not found. Please register first!');
+      } else {
+        console.error('Fetch error:', err);
+        setError('Connection error. Please check if the backend is reachable.');
+      }
     } finally {
       setLoading(false);
     }
