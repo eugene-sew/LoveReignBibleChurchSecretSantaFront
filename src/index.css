@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Mountains of Christmas', cursive;
+}
+
+body {
+  @apply bg-christmas-night text-white overflow-x-hidden;
+  background-image: radial-gradient(circle at 50% 50%, #002b55 0%, #001F3F 100%);
+  min-height: 100vh;
+}
+
+.christmas-card {
+  @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-xl;
+}
+
+.btn-primary {
+  @apply bg-christmas-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full 
+  transition-all duration-300 transform hover:scale-105 shadow-lg 
+  border-2 border-christmas-gold/50 hover:border-christmas-gold;
+}
+
+.btn-secondary {
+  @apply bg-christmas-green hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg
+  transition-all duration-300 shadow-md;
+}
+
+.input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.5);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.8);
+}
+
+.input-field {
+  @apply w-full px-4 py-3 rounded-lg bg-white/90 text-gray-800 
+  focus:outline-none focus:ring-4 focus:ring-christmas-gold/50 
+  border-2 border-transparent focus:border-christmas-gold transition-all;
+}
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
