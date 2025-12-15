@@ -55,7 +55,8 @@ const Register = () => {
           animate={{ opacity: 1, y: 0 }}
           className="christmas-card p-8 w-full max-w-md z-10 text-center"
         >
-          <h1 className="text-4xl text-christmas-red mb-2">LoveReign</h1>
+          <h1 className="text-4xl text-christmas-red mb-0">LoveReign</h1>
+          <h2 className="text-xl text-christmas-red mb-2 font-light">Bible Church</h2>
           <h2 className="text-2xl text-christmas-green mb-8">Santa Finder</h2>
           
           <form onSubmit={handleSubmit} className="space-y-6">
