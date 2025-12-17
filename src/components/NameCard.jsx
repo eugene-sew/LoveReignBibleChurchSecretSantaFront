@@ -7,15 +7,16 @@ const NameCard = ({ name }) => {
       initial={{ scale: 0, opacity: 0, y: 50 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-      className="relative z-20 bg-white text-christmas-night p-8 rounded-xl shadow-2xl border-4 border-christmas-gold text-center max-w-md mx-auto transform rotate-2"
+      className="relative z-50 bg-gradient-to-br from-white to-gray-100 text-christmas-night p-6 rounded-3xl shadow-2xl border-4 border-christmas-gold text-center w-80 md:w-96 lg:w-[32rem] mx-auto"
     >
-      <h3 className="text-xl text-gray-500 font-semibold mb-2 uppercase tracking-widest">You are the Secret Santa for</h3>
-      <h1 className="text-5xl font-bold text-christmas-red mb-4">{name}</h1>
-      <p className="text-sm text-gray-400">May your gift bring joy!</p>
+      <div className="absolute top-0 left-0 w-full h-2 bg-christmas-gold/30 rounded-t-2xl"></div>
+      <h3 className="text-lg text-gray-500 font-semibold mb-2 uppercase tracking-widest mt-2">You are the Secret Santa for</h3>
+      <h1 className="text-4xl md:text-5xl font-bold text-christmas-red mb-4 drop-shadow-sm">{name}</h1>
+      <p className="text-sm text-gray-400 italic">May your gift bring joy!</p>
       
       {/* Decorative elements */}
-      <div className="absolute -top-4 -right-4 text-4xl">🎄</div>
-      <div className="absolute -bottom-4 -left-4 text-4xl">🎁</div>
+      <div className="absolute -top-3 -right-3 text-3xl animate-bounce">🎄</div>
+      <div className="absolute -bottom-3 -left-3 text-3xl animate-pulse">🎁</div>
     </motion.div>
   );
 };

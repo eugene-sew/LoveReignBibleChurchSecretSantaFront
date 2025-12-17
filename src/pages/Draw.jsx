@@ -21,6 +21,8 @@ const Draw = () => {
 
   const [pickedNumbers, setPickedNumbers] = useState([]);
 
+  const [isRevealed, setIsRevealed] = useState(false);
+
   useEffect(() => {
     if (!name) {
       navigate('/');
@@ -52,6 +54,7 @@ const Draw = () => {
         if (res.data.viewed) {
           setViewed(true);
           setIsOpen(true);
+          setIsRevealed(true); // If already viewed, reveal immediately
         }
       }
     } catch (err) {
@@ -90,13 +93,18 @@ const Draw = () => {
     }
     
     setIsOpen(true);
-    fireConfetti();
+    // Note: fireConfetti is now called in onReveal
     
     try {
       await api.post('/viewed', { name });
     } catch (err) {
       console.error('Failed to mark as viewed', err);
     }
+  };
+
+  const onReveal = () => {
+    setIsRevealed(true);
+    fireConfetti();
   };
 
   const fireConfetti = () => {
@@ -176,25 +184,14 @@ const Draw = () => {
                     </p>
                 )}
                 
-                <div className="flex flex-col items-center justify-center min-h-[600px] w-full gap-8">
-                    <AnimatePresence>
-                        {isOpen && (
-                            <motion.div 
-                                initial={{ scale: 0, opacity: 0, y: 50 }}
-                                animate={{ scale: 1, opacity: 1, y: 0 }}
-                                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                                className="z-50 w-full max-w-md px-4"
-                            >
-                                <NameCard name={assignment} />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-                    <div className="relative z-10">
-                        <GiftBox onClick={handleOpen} isOpen={isOpen} />
+                    <div className="relative z-10 flex flex-col items-center mt-16">
+                        <GiftBox onClick={handleOpen} isOpen={isOpen} onReveal={onReveal}>
+                            {/* Content to pop up from box */}
+                            <NameCard name={assignment} />
+                        </GiftBox>
                     </div>
                 </div>
-              </div>
+
             )}
           </>
         )}
