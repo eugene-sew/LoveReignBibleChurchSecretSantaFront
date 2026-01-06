@@ -55,6 +55,34 @@ const AdminDashboard = () => {
     }
   };
 
+  const deleteMember = async (id, name) => {
+    if (!window.confirm(`Are you sure you want to delete ${name}? This will break the pairing chain!`)) return;
+    setLoading(true);
+    try {
+      const res = await api.delete(`/admin/members/${id}`);
+      setMessage(res.data.message);
+      fetchMembers();
+    } catch (err) {
+      setMessage('Error deleting member');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const reconcilePairings = async () => {
+    if (!window.confirm('This will attempt to fix broken pairings by connecting orphans. Continue?')) return;
+    setLoading(true);
+    try {
+      const res = await api.post('/admin/reconcile');
+      setMessage(`${res.data.message}. Broken: ${res.data.details.broken_links_found}, Orphans: ${res.data.details.orphans_found}`);
+      fetchMembers();
+    } catch (err) {
+      setMessage('Error reconciling pairings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const downloadCSV = () => {
     window.open(`${api.defaults.baseURL}/admin/export`, '_blank');
   };
@@ -118,6 +146,14 @@ const AdminDashboard = () => {
             </button>
             
             <button 
+              onClick={reconcilePairings}
+              disabled={loading}
+              className="bg-blue-500/80 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg backdrop-blur-sm border border-blue-400"
+            >
+              Reconcile Pairings 🔧
+            </button>
+
+            <button 
               onClick={resetEvent}
               disabled={loading}
               className="bg-red-500/80 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full transition-all transform hover:scale-105 shadow-lg backdrop-blur-sm border border-red-400"
@@ -166,6 +202,7 @@ const AdminDashboard = () => {
                   <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider font-poppins">Assigned To</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider font-poppins">Status</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider font-poppins">Registered At</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider font-poppins">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
@@ -195,11 +232,22 @@ const AdminDashboard = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                       {new Date(member.created_at).toLocaleDateString()}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                      <button
+                        onClick={() => deleteMember(member.id, member.name)}
+                        className="text-red-400 hover:text-red-300 transition-colors"
+                        title="Delete Member"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 {members.length === 0 && (
                   <tr>
-                    <td colSpan="4" className="px-6 py-8 text-center text-gray-400 text-lg">
+                    <td colSpan="5" className="px-6 py-8 text-center text-gray-400 text-lg">
                       No members registered yet.
                     </td>
                   </tr>
