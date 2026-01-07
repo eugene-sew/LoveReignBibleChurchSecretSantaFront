@@ -184,7 +184,7 @@ const Draw = () => {
                     </p>
                 )}
                 
-                    <div className="relative z-10 flex flex-col items-center mt-16">
+                    <div className="relative z-10 flex flex-col items-center mt-36">
                         <GiftBox onClick={handleOpen} isOpen={isOpen} onReveal={onReveal}>
                             {/* Content to pop up from box */}
                             <NameCard name={assignment} />
