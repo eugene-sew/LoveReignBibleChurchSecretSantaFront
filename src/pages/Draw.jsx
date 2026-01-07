@@ -149,7 +149,7 @@ const Draw = () => {
           </div>
         ) : (
           <>
-            {!pickedNumber ? (
+            {!pickedNumber && !assignment ? (
                 <div className="w-full max-w-5xl h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
                     <p className="text-white text-center mb-8 text-xl sticky top-0 bg-black/20 backdrop-blur-md py-4 rounded-lg z-10">Pick a number to discover who you will bless this Christmas! 🎄</p>
                     <div className="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-3 pb-8">
@@ -179,7 +179,7 @@ const Draw = () => {
                 {!isOpen && (
                     <p className="text-white mb-8 text-xl animate-pulse">
                         {assignment 
-                            ? `You picked Gift #${pickedNumber}! Tap to open!` 
+                            ? (pickedNumber ? `You picked Gift #${pickedNumber}! Tap to open!` : `Your Secret Santa assignment is ready! Tap to open!`)
                             : `You picked Gift #${pickedNumber}! Waiting for the event to start...`}
                     </p>
                 )}
