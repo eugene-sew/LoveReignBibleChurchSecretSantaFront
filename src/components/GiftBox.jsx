@@ -52,7 +52,7 @@ const GiftBox = ({ onClick, isOpen, onReveal, children }) => {
     // 5. Content Pop Up (Wait slightly for lid to clear)
     await new Promise(r => setTimeout(r, 300));
     await contentControls.start({
-      y: -210, // Pop up slightly less high
+      y: -260, // Pop up higher to clear the box
       opacity: 1,
       scale: 1,
       transition: { type: "spring", stiffness: 150, damping: 12 }
