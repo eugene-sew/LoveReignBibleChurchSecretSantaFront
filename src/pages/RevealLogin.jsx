@@ -5,26 +5,28 @@ import Layout from '../components/Layout';
 import { motion } from 'framer-motion';
 
 const RevealLogin = () => {
-  const [number, setNumber] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!number) return;
+    if (!name.trim()) return;
 
     setLoading(true);
     setError('');
 
     try {
-      const res = await api.post('/login-by-number', { number: parseInt(number) });
-      // Navigate to draw page with name (since Draw.jsx uses name to fetch assignment)
-      // Or we could refactor Draw.jsx to use number. 
-      // For minimal refactor, we'll use the name returned by login.
-      navigate(`/draw?name=${encodeURIComponent(res.data.name)}`);
+      // Check if name exists by trying to fetch assignment
+      await api.get(`/assignment?name=${encodeURIComponent(name.trim())}`);
+      navigate(`/draw?name=${encodeURIComponent(name.trim())}`);
     } catch (err) {
-      setError('Invalid number. Please try again.');
+      if (err.response && err.response.status === 404) {
+        setError('Name not found. Please check the spelling.');
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -43,13 +45,13 @@ const RevealLogin = () => {
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-left text-gray-600 mb-2 font-semibold">Enter your Lucky Number</label>
+              <label className="block text-left text-gray-600 mb-2 font-semibold">Enter your Name</label>
               <input
-                type="number"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
-                placeholder="e.g. 7"
-                className="input-field text-center text-2xl tracking-widest"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. John Doe"
+                className="input-field text-center text-xl tracking-wide"
                 required
               />
             </div>
